@@ -5,7 +5,7 @@ const { addRepo } = require("./controllers/add");
 const { makeCommit } = require("./controllers/commit");
 const { makePush } = require("./controllers/push");
 const { makeRevert } = require("./controllers/revert");
-
+const { makePull } = require("./controllers/pull");
 yargs(hideBin(process.argv))
   .command("init", "Initialise a new repository", {}, initRepo)
   .command(
@@ -17,10 +17,12 @@ yargs(hideBin(process.argv))
         type: "String",
       });
     },
-    addRepo
+    (argv)=>{
+      addRepo(argv.file);
+    }
   )
   .command(
-    "commit <commit message>",
+    "commit <message>",
     "making a commit",
     (yargs) => {
       yargs.positional("commit message", {
@@ -28,7 +30,12 @@ yargs(hideBin(process.argv))
         type: "string",
       });
     },
-    makeCommit
+
+    (argv)=>{
+      
+      makeCommit(argv.message);
+
+    }
   )
   .command("push", "Pushing a new code", {}, makePush)
   .command("pull", "Pulling a new code", {}, makePull)
